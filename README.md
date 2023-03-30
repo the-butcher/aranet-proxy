@@ -8,4 +8,4 @@ This is a first draft and could be extended to i.e. retrieve historic data for m
 
 A live version can be found at https://aranet.the-butchers.at/
 
-![screenshot](https://github.com/the-butcher/aranet-proxy/blob/master/screenshot.png?raw=true)
+![screenshot](https://github.com/the-butcher/aranet-proxy/blob/master/public/screenshot.jpg?raw=true)

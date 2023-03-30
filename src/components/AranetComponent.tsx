@@ -83,12 +83,12 @@ function AranetComponent(props: IAranetProps) {
             readIntervalCharacteristic.readValue().then(value => {
 
                 const readInterval = value.getUint16(0, true);
-                console.log('readInterval', readInterval);
+                console.debug('readInterval', readInterval);
 
                 lastMeasuredCharacteristic.readValue().then(value => {
 
                     const lastMeasured = value.getUint16(0, true);
-                    console.log('lastMeasured', lastMeasured);
+                    console.debug('lastMeasured', lastMeasured);
 
                     const readCo2 = () => {
                         latestValuesCharacteristic?.readValue().then(value => {
@@ -128,7 +128,7 @@ function AranetComponent(props: IAranetProps) {
 
     const handleDisconnectButtonClick = () => {
         gatt?.disconnect();
-        window.clearInterval(intervalHandle.current);
+        window.clearInterval(intervalHandle.current); // no more reads on a disconnected device, errors otherwise
         handleDisconnect(device);
     }
 

@@ -19,7 +19,7 @@ function PickerComponent(props: IPickerProps) {
 
         const bluetooth: Bluetooth = navigator.bluetooth;
 
-        console.log('bluetooth', bluetooth);
+        console.debug('bluetooth', bluetooth);
         bluetooth.requestDevice({
             filters: [
                 {
@@ -31,9 +31,7 @@ function PickerComponent(props: IPickerProps) {
                 'battery_service'
             ],
         }).then(device => {
-
             handleDevicePicked(device);
-
         }).catch((e: any) => {
             console.error(e);
         });

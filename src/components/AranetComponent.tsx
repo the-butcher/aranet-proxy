@@ -139,7 +139,7 @@ function AranetComponent(props: IAranetProps) {
             if (co2 >= 1000) {
                 _color = '#ff9999';
             } else if (co2 >= 800) {
-                _color = '#99ff99';
+                _color = '#ffff99';
             } else {
                 _color = '#99ff99';
             }

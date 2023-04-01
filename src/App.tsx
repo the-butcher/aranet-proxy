@@ -1,6 +1,6 @@
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import { Collapse, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import AranetComponent from './components/AranetComponent';
 import { IAranetProps } from './components/IAranetProps';
@@ -8,6 +8,9 @@ import LockComponent from './components/LockComponent';
 import PickerComponent from './components/PickerComponent';
 
 const appTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
   typography: {
     fontFamily: [
       'SimplyMono-Bold',
@@ -45,6 +48,7 @@ const appTheme = createTheme({
 
 function App() {
 
+  const [buttonVisible, setButtonVisible] = useState<boolean>(true);
   const [aranetProps, setAranetProps] = useState<IAranetProps[]>([]);
   const handleDeviceRemove = (device: BluetoothDevice) => {
     setAranetProps([
@@ -62,24 +66,37 @@ function App() {
           handleDeviceRemove
         }
       ]);
+      setButtonVisible(false);
     } else {
       // TODO :: show some message
     }
   };
 
+  const timeoutHandle = useRef<number>(-1);
+  useEffect(() => {
+    document.addEventListener('mousemove', () => {
+      setButtonVisible(true);
+      window.clearTimeout(timeoutHandle.current);
+      timeoutHandle.current = window.setTimeout(() => {
+        setButtonVisible(false);
+      }, 5000);
+    })
+  }, []);
+
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Typography variant="h5" component="h5" sx={{ paddingLeft: '10px' }}>
-          <PickerComponent {...{ handleDevicePicked }} /><LockComponent />
-        </Typography>
-        <div style={{ display: 'flex', flexDirection: 'column', flexGrow: '4' }}>
-          {
-            aranetProps.map(device => <AranetComponent key={device.device.id} {...device} />)
-          }
-        </div>
+        <Collapse in={buttonVisible} timeout="auto">
+          <Typography variant="h5" component="h5" sx={{ paddingLeft: '10px' }}>
+            <PickerComponent {...{ handleDevicePicked }} /><LockComponent />
+          </Typography>
+        </Collapse>
+        {
+          aranetProps.map(device => <AranetComponent key={device.device.id} {...device} />)
+        }
       </div>
+
     </ThemeProvider>
   );
 
